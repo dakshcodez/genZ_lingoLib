@@ -46,11 +46,31 @@ void insert(struct entry** dic, char *term, char *meaning, char *synonym, char *
 
 //only printing the term to check
 
-void inorderTraversal(struct entry* dic){
+void printAlphabetically(struct entry* dic){
     if (dic != NULL){
-        inorderTraversal(dic -> left);
+        printAlphabetically(dic -> left);
         printf("%s\n", dic -> term);
-        inorderTraversal(dic -> right);
+        printAlphabetically(dic -> right);
+    }
+}
+
+void search(struct entry* dic, char *searchWord){
+    while (dic != NULL){
+        if (dic -> term == searchWord){
+            printf("%s\n", dic->term);
+            printf("%s", dic->meaning);
+            return;
+        }
+        else if (strcmp(searchWord, dic->term) < 0){
+            dic = dic->left;
+        }
+        else{
+            dic = dic->right;
+        }
+    }
+    if (dic == NULL){
+        printf("Word not found.\n");
+        return;
     }
 }
 
@@ -60,6 +80,6 @@ int main(){
     insert(&dictionary, "on god", "Similar to 'fr', except the user is so confident, that he swears his life to god.", "fr", "cap");
     insert(&dictionary, "boomer", "Referring to the person reading this.", "you", "me");
 
-    inorderTraversal(dictionary);
+    search(dictionary, "fr");
     return 0;
 }
